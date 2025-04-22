@@ -1,0 +1,17 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
+
+namespace api.Entidades
+{
+    public class Entrega
+    {
+        [Key]
+        public int EntregaId { get; set; }
+        [ForeignKey("Pedido")]
+        public int PedidoId { get; set; }
+        [ForeignKey("Entregador")]
+        public int EntregadorId { get; set; }
+        public DateTime DataHoraUtcEntrega { get; set; }
+    }
+}
