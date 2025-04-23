@@ -1,7 +1,7 @@
 import React from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
 import { useAtom } from "jotai";
-import { pedidoEmCursoAtom } from "../../../atoms/Cliente/pedidoEmCurso";
+import { pedidoEmCursoAtom } from "../../../atoms/Cliente/atomosCliente";
 import {
     CarrinhoLista,
     ItemLinha,
@@ -12,6 +12,7 @@ import {
     RemoverButton
 } from "./PaginaCarrinho.styled";
 
+//TODO: NAO DEIXAR ADICIONAR MAIS DO QUE A QUANTIDADE DISPONIVEL
 const PaginaCarrinho = () => {
     const [pedido, setPedido] = useAtom(pedidoEmCursoAtom);
 
@@ -39,9 +40,9 @@ const PaginaCarrinho = () => {
     };
 
     const total = pedido.itens.reduce((acc, item) => {
-        let valorNum = typeof item.valor === "string"
-            ? Number(item.valor.replace("R$", "").replace(",", ".").trim())
-            : item.valor;
+        let valorNum = typeof item.precoItem === "string"
+            ? Number(item.precoItem.replace("R$", "").replace(",", ".").trim())
+            : item.precoItem;
         return acc + (valorNum || 0) * (item.quantidade || 1);
     }, 0);
 
@@ -53,7 +54,7 @@ const PaginaCarrinho = () => {
                     <CarrinhoLista>
                         {pedido.itens.map((item, idx) => (
                             <ItemLinha key={idx}>
-                                <span>{item.nome}</span>
+                                <span>{item.nomeItem}</span>
                                 <span>
                                     <QuantidadeInput
                                         type="number"
@@ -61,9 +62,9 @@ const PaginaCarrinho = () => {
                                         value={item.quantidade || 1}
                                         onChange={e => handleQuantidadeChange(idx, Number(e.target.value))}
                                     />
-                                    {typeof item.valor === "number"
-                                        ? `R$ ${item.valor.toFixed(2)}`
-                                        : item.valor}
+                                    {typeof item.precoItem === "number"
+                                        ? `R$ ${item.precoItem.toFixed(2)}`
+                                        : item.precoItem}
                                     <RemoverButton onClick={() => handleRemover(idx)}>
                                         Remover
                                     </RemoverButton>

@@ -1,6 +1,5 @@
 import React from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
-import { pizzas, acompanhamentos } from "../../../services/items";
 import {
     SectionHeader,
     ListTable,
@@ -10,12 +9,17 @@ import {
     ItemPrice,
     AddButton
 } from "./PaginaMenu.styled";
-import { useSetAtom } from "jotai";
-import { pedidoEmCursoAtom } from "../../../atoms/Cliente/pedidoEmCurso";
+import { useAtomValue, useSetAtom } from "jotai";
+import { pedidoEmCursoAtom, itensDisponiveis } from "../../../atoms/Cliente/atomosCliente";
+import { TipoItem } from "../../../enums/tipoItem";
 
 //TODO: EXPANDIR ITENS AO CLICAR NA SUA IMAGEM
 const PaginaMenu = () => {
     const setPedido = useSetAtom(pedidoEmCursoAtom);
+    const itens = useAtomValue(itensDisponiveis);
+
+    const pizzas = itens.filter(item => item.tipoItem === TipoItem.PIZZA);
+    const acompanhamentos = itens.filter(item => item.tipoItem === TipoItem.BEBIDAS || item.tipoItem === TipoItem.OUTROS);
 
     const handleAdd = (item) => {
         setPedido((prev) => ({
@@ -31,8 +35,8 @@ const PaginaMenu = () => {
                 {pizzas.map((item) => (
                     <ListRow key={item.id}>
                         <ItemImg src={item.img} alt={item.nome} />
-                        <ItemName>{item.nome}</ItemName>
-                        <ItemPrice>{item.valor}</ItemPrice>
+                        <ItemName>{item.nomeItem}</ItemName>
+                        <ItemPrice>{item.precoItem}</ItemPrice>
                         <AddButton onClick={() => handleAdd(item)}>Adicionar ao pedido</AddButton>
                     </ListRow>
                 ))}
@@ -43,8 +47,8 @@ const PaginaMenu = () => {
                 {acompanhamentos.map((item) => (
                     <ListRow key={item.id}>
                         <ItemImg src={item.img} alt={item.nome} />
-                        <ItemName>{item.nome}</ItemName>
-                        <ItemPrice>{item.valor}</ItemPrice>
+                        <ItemName>{item.nomeItem}</ItemName>
+                        <ItemPrice>{item.precoItem}</ItemPrice>
                         <AddButton onClick={() => handleAdd(item)}>Adicionar ao pedido</AddButton>
                     </ListRow>
                 ))}

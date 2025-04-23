@@ -10,7 +10,7 @@ namespace api.Controllers
     {
         private readonly IItemServico _itemServico = itemServico;
 
-        [HttpGet]
+        [HttpGet("/todos")]
         public async Task<IActionResult> ObterItemsCardapio()
         {
             return Ok(await _itemServico.ObterItensCardapio());

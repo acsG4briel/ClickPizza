@@ -20,6 +20,7 @@ namespace api.Servicos
                     ItemCardapioId = item.ItemId,
                     NomeItem = item.Nome,
                     PrecoItem = item.ValorPorUnidade,
+                    TipoItem = item.TipoItem,
                 });
             }
             
