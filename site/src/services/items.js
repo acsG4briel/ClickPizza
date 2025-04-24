@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 //TODO: Mover Url pra arquivo proprio
-const URL_BASE =  'https://localhost:44329';
+const URL_BASE =  'https://localhost:44329/Item';
 
+
+//ENDPOINT OBTER TODOS OS ITENS DO MENU
 export const getItems = async () => {
   try {
     const response = await axios.get(`${URL_BASE}/todos`);

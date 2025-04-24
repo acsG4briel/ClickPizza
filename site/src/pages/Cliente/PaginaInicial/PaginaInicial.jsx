@@ -47,25 +47,25 @@ const PaginaInicial = () => {
     return (
         <PaginaBase>
             <SearchBar placeholder="Buscar pizza..." />
-    
+
             <SectionHeader>Escolhas da casa</SectionHeader>
             <CardsGrid>
                 {novidades.map((pizza) => (
                     <PizzaCard key={pizza.itemCardapioId} onClick={handleCardClick}>
-                        <PizzaImg src={pizza.imgUrl} alt={pizza.nomeItem} />
+                        <PizzaImg src={"https://images.unsplash.com/photo-1513104890138-7c749659a591"} />
                         <PizzaName>{pizza.nomeItem}</PizzaName>
-                        <PizzaPrice>{pizza.precoItem}</PizzaPrice>
+                        <PizzaPrice>{Number(pizza.precoItem).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</PizzaPrice>
                     </PizzaCard>
                 ))}
             </CardsGrid>
-    
+
             <SectionHeader>Novidades</SectionHeader>
             <CardsGrid>
                 {escolhasDaCasa.map((pizza) => (
                     <PizzaCard key={pizza.itemCardapioId} onClick={handleCardClick}>
-                        <PizzaImg src={pizza.imgUrl} alt={pizza.nomeItem} />
+                        <PizzaImg src={"https://images.unsplash.com/photo-1513104890138-7c749659a591"} alt={pizza.nomeItem} />
                         <PizzaName>{pizza.nomeItem}</PizzaName>
-                        <PizzaPrice>{pizza.precoItem}</PizzaPrice>
+                        <PizzaPrice>{Number(pizza.precoItem).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</PizzaPrice>
                     </PizzaCard>
                 ))}
             </CardsGrid>

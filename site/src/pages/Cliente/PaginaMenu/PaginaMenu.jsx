@@ -22,6 +22,7 @@ const PaginaMenu = () => {
     const acompanhamentos = itens.filter(item => item.tipoItem === TipoItem.BEBIDAS || item.tipoItem === TipoItem.OUTROS);
 
     const handleAdd = (item) => {
+        console.log(item);
         setPedido((prev) => ({
             ...prev,
             itens: [...prev.itens, item]
@@ -33,10 +34,10 @@ const PaginaMenu = () => {
             <SectionHeader>Pizzas</SectionHeader>
             <ListTable>
                 {pizzas.map((item) => (
-                    <ListRow key={item.id}>
-                        <ItemImg src={item.img} alt={item.nome} />
+                    <ListRow key={item.itemCardapioId}>
+                        <ItemImg src={"https://images.unsplash.com/photo-1513104890138-7c749659a591"} alt={item.nome} />
                         <ItemName>{item.nomeItem}</ItemName>
-                        <ItemPrice>{item.precoItem}</ItemPrice>
+                        <ItemPrice>{Number(item.precoItem).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</ItemPrice>
                         <AddButton onClick={() => handleAdd(item)}>Adicionar ao pedido</AddButton>
                     </ListRow>
                 ))}
@@ -45,10 +46,10 @@ const PaginaMenu = () => {
             <SectionHeader>Acompanhamentos</SectionHeader>
             <ListTable>
                 {acompanhamentos.map((item) => (
-                    <ListRow key={item.id}>
-                        <ItemImg src={item.img} alt={item.nome} />
+                    <ListRow key={item.itemCardapioId}>
+                        <ItemImg src={"https://images.unsplash.com/photo-1504674900247-0877df9cc836"} alt={item.nome} />
                         <ItemName>{item.nomeItem}</ItemName>
-                        <ItemPrice>{item.precoItem}</ItemPrice>
+                        <ItemPrice>{Number(item.precoItem).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</ItemPrice>
                         <AddButton onClick={() => handleAdd(item)}>Adicionar ao pedido</AddButton>
                     </ListRow>
                 ))}
