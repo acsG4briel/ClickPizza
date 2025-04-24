@@ -10,7 +10,22 @@ namespace api.Repositorios
 
         public async Task<List<Item>> ObterTodosItems()
         {
-            return await _context.Itens.ToListAsync();
+            return await _context.Itens
+                .Where(item => item.QuantidadeDisponivel > 0)
+                .ToListAsync();
+        }
+
+        public async Task<List<Item>> ObterItemsPorIds(List<int> itemIds)
+        {
+            return await _context.Itens
+                .Where(item => itemIds.Contains(item.ItemId))
+                .ToListAsync();
+        }
+
+        public async Task AtualizarQuantidadeItemPorIds(List<Item> itemAtualizado)
+        {
+            _context.Itens.UpdateRange(itemAtualizado);
+            await _context.SaveChangesAsync();
         }
     }
 }

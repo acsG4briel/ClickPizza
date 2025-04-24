@@ -16,9 +16,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContextoBanco>(options =>
   options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//INJEÇÕES DE DEPENDENCIAS
-builder.Services.AddScoped<IItemRepositorio, ItemRepositorio>();
+//INJEÇÕES DE DEPENDENCIAS - SERVICOS
 builder.Services.AddScoped<IItemServico, ItemServico>();
+builder.Services.AddScoped<IPagamentoServico, PagamentoServico>();
+builder.Services.AddScoped<IPedidoServico, PedidoServico>();
+
+//INJEÇÕES DE DEPENDENCIAS - REPOSITORIOS
+builder.Services.AddScoped<IItemRepositorio, ItemRepositorio>();
+builder.Services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio>();
+builder.Services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
+builder.Services.AddScoped<IItemPedidoRepositorio, ItemPedidoRepositorio>();
+builder.Services.AddScoped<IPagamentoRepositorio, PagamentoRepositorio>();
 
 builder.Services.AddCors(options =>
 {

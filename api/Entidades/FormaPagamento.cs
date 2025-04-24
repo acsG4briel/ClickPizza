@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
 
 namespace api.Entidades
 {
@@ -9,9 +10,10 @@ namespace api.Entidades
         public int FormaPagamentoId { get; set; }
         [ForeignKey("Usuario")]
         public int UsuarioId { get; set; }
-        public int NumeroCartao { get; set; }
-        public string Validade { get; set; } = string.Empty;
-        public int CodigoValidadeCartao { get; set; }
+        public string ApelidoCartao { get; set; } = string.Empty;
+        public long? NumeroCartao { get; set; }
+        public string? Validade { get; set; }
+        public int? CodigoValidadeCartao { get; set; }
         public bool FormatoAtivo { get; set; }
     }
 }

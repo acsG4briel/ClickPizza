@@ -3,15 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Entidades
 {
-    public class Pedido
+    public class Pagamento
     {
         [Key]
-        public int PedidoId { get; set; }
+        public int PagamentoId { get; set; }
         [ForeignKey("Usuario")]
         public int UsuarioId { get; set; }
         [ForeignKey("FormaPagamento")]
         public int FormaPagamentoId { get; set; }
-        public decimal ValorTotal { get; set; }
-        public bool LiberadoParaEntrega { get; set; } = false;
+        [ForeignKey("Pedido")]
+        public int PedidoId { get; set; }
+        public DateTime DataHoraUtcPagamento { get; set; }
     }
 }

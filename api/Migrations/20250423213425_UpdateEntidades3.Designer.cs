@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Repositorios;
@@ -11,9 +12,11 @@ using api.Repositorios;
 namespace api.Migrations
 {
     [DbContext(typeof(ContextoBanco))]
-    partial class ContextoBancoModelSnapshot : ModelSnapshot
+    [Migration("20250423213425_UpdateEntidades3")]
+    partial class UpdateEntidades3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,12 +71,6 @@ namespace api.Migrations
 
                     b.Property<DateTime>("DataHoraUtcEntrega")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("EnderecoId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("EntregaFinalizada")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("EntregadorId")
                         .HasColumnType("integer");

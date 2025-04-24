@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Repositorios;
@@ -11,9 +12,11 @@ using api.Repositorios;
 namespace api.Migrations
 {
     [DbContext(typeof(ContextoBanco))]
-    partial class ContextoBancoModelSnapshot : ModelSnapshot
+    [Migration("20250423191245_UpdateEntidades2")]
+    partial class UpdateEntidades2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,12 +72,6 @@ namespace api.Migrations
                     b.Property<DateTime>("DataHoraUtcEntrega")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("EnderecoId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("EntregaFinalizada")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("EntregadorId")
                         .HasColumnType("integer");
 
@@ -126,19 +123,20 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("CodigoValidadeCartao")
+                    b.Property<int>("CodigoValidadeCartao")
                         .HasColumnType("integer");
 
                     b.Property<bool>("FormatoAtivo")
                         .HasColumnType("boolean");
 
-                    b.Property<long?>("NumeroCartao")
-                        .HasColumnType("bigint");
+                    b.Property<int>("NumeroCartao")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Validade")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("FormaPagamentoId");
@@ -233,9 +231,6 @@ namespace api.Migrations
 
                     b.Property<int>("FormaPagamentoId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("LiberadoParaEntrega")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("integer");
