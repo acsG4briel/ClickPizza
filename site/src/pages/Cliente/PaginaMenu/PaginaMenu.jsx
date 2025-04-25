@@ -14,6 +14,7 @@ import { pedidoEmCursoAtom, itensDisponiveis } from "../../../atoms/Cliente/atom
 import { TipoItem } from "../../../enums/tipoItem";
 
 //TODO: EXPANDIR ITENS AO CLICAR NA SUA IMAGEM
+//TODO: INDICAR SUCESSO OU ERRO NA COR DO BOTAO NA HORA DE ADICIONAR AO PEDIDO
 const PaginaMenu = () => {
     const setPedido = useSetAtom(pedidoEmCursoAtom);
     const itens = useAtomValue(itensDisponiveis);
@@ -22,11 +23,16 @@ const PaginaMenu = () => {
     const acompanhamentos = itens.filter(item => item.tipoItem === TipoItem.BEBIDAS || item.tipoItem === TipoItem.OUTROS);
 
     const handleAdd = (item) => {
-        console.log(item);
-        setPedido((prev) => ({
-            ...prev,
-            itens: [...prev.itens, item]
-        }));
+        setPedido((prev) => {
+            const jaExiste = prev.itens.some(i => i.itemCardapioId === item.itemCardapioId);
+            if (!jaExiste) {
+                return {
+                    ...prev,
+                    itens: [...prev.itens, item]
+                };
+            }
+            return prev;
+        });
     };
 
     return (

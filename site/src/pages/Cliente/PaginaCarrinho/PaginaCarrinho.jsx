@@ -55,12 +55,18 @@ const PaginaCarrinho = () => {
             return;
         }
 
+        const listaPedidos = pedido.itens.flatMap(item =>
+            Array(item.quantidade || 1).fill(item.itemCardapioId)
+        );
+        
         const informacoesPedido = {
             usuarioId: usuarioId,
             formaPagamentoId: formaSelecionada,
             valorTotal: total,
-            listaPedidos: pedido.itens.map(item => item.itemCardapioId)
+            listaPedidos: listaPedidos
         };
+
+        console.log("Pedido:", pedido);
 
         try {
             await postPedido(informacoesPedido);
