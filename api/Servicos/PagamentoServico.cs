@@ -17,7 +17,7 @@ namespace api.Servicos
                 retorno.Add(new FormaPagamentoDto
                 {
                     FormaPagamentoId = item.FormaPagamentoId,
-                    ApelidoCartao = item.ApelidoCartao,
+                    ApelidoCartao = item.Descricao,
                     NumeroCartao = item.NumeroCartao,
                     Validade = item.Validade,
                     CodigoValidadeCartao = item.CodigoValidadeCartao

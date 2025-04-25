@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class CRIAR_ESQUEMA_BANCO : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,12 +18,13 @@ namespace api.Migrations
                 {
                     EnderecoId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CEP = table.Column<int>(type: "integer", nullable: false),
                     Estado = table.Column<string>(type: "text", nullable: false),
                     Cidade = table.Column<string>(type: "text", nullable: false),
                     Bairro = table.Column<string>(type: "text", nullable: false),
                     Rua = table.Column<string>(type: "text", nullable: false),
                     Numero = table.Column<int>(type: "integer", nullable: false),
-                    Complemento = table.Column<string>(type: "text", nullable: false)
+                    Complemento = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,7 +39,11 @@ namespace api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Nome = table.Column<string>(type: "text", nullable: false),
                     Cpf = table.Column<string>(type: "text", nullable: false),
-                    Veiculo = table.Column<string>(type: "text", nullable: false)
+                    Celular = table.Column<int>(type: "integer", nullable: true),
+                    Veiculo = table.Column<string>(type: "text", nullable: false),
+                    PlacaVeiculo = table.Column<string>(type: "text", nullable: false),
+                    EmEntrega = table.Column<bool>(type: "boolean", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,7 +58,10 @@ namespace api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PedidoId = table.Column<int>(type: "integer", nullable: false),
                     EntregadorId = table.Column<int>(type: "integer", nullable: false),
-                    DataHoraUtcEntrega = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    EnderecoId = table.Column<int>(type: "integer", nullable: false),
+                    DataHoraUtcEntregaIncio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DataHoraUtcEntregaFim = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EntregaFinalizada = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,9 +75,10 @@ namespace api.Migrations
                     FormaPagamentoId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UsuarioId = table.Column<int>(type: "integer", nullable: false),
-                    NumeroCartao = table.Column<int>(type: "integer", nullable: false),
-                    Validade = table.Column<string>(type: "text", nullable: false),
-                    CodigoValidadeCartao = table.Column<int>(type: "integer", nullable: false),
+                    Descricao = table.Column<string>(type: "text", nullable: false),
+                    NumeroCartao = table.Column<long>(type: "bigint", nullable: true),
+                    Validade = table.Column<string>(type: "text", nullable: true),
+                    CodigoValidadeCartao = table.Column<int>(type: "integer", nullable: true),
                     FormatoAtivo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -84,6 +93,7 @@ namespace api.Migrations
                     ItemId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Nome = table.Column<string>(type: "text", nullable: false),
+                    TipoItem = table.Column<int>(type: "integer", nullable: false),
                     Descricao = table.Column<string>(type: "text", nullable: false),
                     ValorPorUnidade = table.Column<decimal>(type: "numeric", nullable: false),
                     QuantidadeDisponivel = table.Column<int>(type: "integer", nullable: false)
@@ -108,13 +118,33 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pagamentos",
+                columns: table => new
+                {
+                    PagamentoId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UsuarioId = table.Column<int>(type: "integer", nullable: false),
+                    FormaPagamentoId = table.Column<int>(type: "integer", nullable: false),
+                    PedidoId = table.Column<int>(type: "integer", nullable: false),
+                    DataHoraUtcPagamento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pagamentos", x => x.PagamentoId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pedidos",
                 columns: table => new
                 {
                     PedidoId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UsuarioId = table.Column<int>(type: "integer", nullable: false),
-                    ValorTotal = table.Column<decimal>(type: "numeric", nullable: false)
+                    FormaPagamentoId = table.Column<int>(type: "integer", nullable: false),
+                    ValorTotal = table.Column<decimal>(type: "numeric", nullable: false),
+                    DataHoraUtcPedido = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LiberadoParaEntrega = table.Column<bool>(type: "boolean", nullable: false),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,7 +159,10 @@ namespace api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     EnderecoId = table.Column<int>(type: "integer", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
-                    Cpf = table.Column<int>(type: "integer", nullable: false)
+                    Cpf = table.Column<int>(type: "integer", nullable: false),
+                    Celular = table.Column<int>(type: "integer", nullable: true),
+                    Ativo = table.Column<bool>(type: "boolean", nullable: false),
+                    Administrador = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,6 +190,9 @@ namespace api.Migrations
 
             migrationBuilder.DropTable(
                 name: "ItensPedido");
+
+            migrationBuilder.DropTable(
+                name: "Pagamentos");
 
             migrationBuilder.DropTable(
                 name: "Pedidos");

@@ -12,8 +12,8 @@ using api.Repositorios;
 namespace api.Migrations
 {
     [DbContext(typeof(ContextoBanco))]
-    [Migration("20250423213425_UpdateEntidades3")]
-    partial class UpdateEntidades3
+    [Migration("20250425144239_ALTERACOES_ENTIDADES")]
+    partial class ALTERACOES_ENTIDADES
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,14 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("CEP")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Cidade")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Estado")
@@ -69,8 +71,17 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EntregaId"));
 
-                    b.Property<DateTime>("DataHoraUtcEntrega")
+                    b.Property<DateTime>("DataHoraUtcEntregaFim")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataHoraUtcEntregaIncio")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EnderecoId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("EntregaFinalizada")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("EntregadorId")
                         .HasColumnType("integer");
@@ -91,6 +102,12 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EntregadorId"));
 
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<long?>("Celular")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasColumnType("text");
@@ -99,6 +116,10 @@ namespace api.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PlacaVeiculo")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -119,12 +140,12 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FormaPagamentoId"));
 
-                    b.Property<string>("ApelidoCartao")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int?>("CodigoValidadeCartao")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("FormatoAtivo")
                         .HasColumnType("boolean");
@@ -206,9 +227,6 @@ namespace api.Migrations
                     b.Property<int>("FormaPagamentoId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ParcelasPagamento")
-                        .HasColumnType("integer");
-
                     b.Property<int>("PedidoId")
                         .HasColumnType("integer");
 
@@ -227,6 +245,12 @@ namespace api.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PedidoId"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("DataHoraUtcPedido")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("FormaPagamentoId")
                         .HasColumnType("integer");
@@ -253,8 +277,18 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UsuarioId"));
 
-                    b.Property<int>("Cpf")
-                        .HasColumnType("integer");
+                    b.Property<bool>("Administrador")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<long?>("Celular")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("EnderecoId")
                         .HasColumnType("integer");

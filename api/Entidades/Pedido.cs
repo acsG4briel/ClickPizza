@@ -12,6 +12,8 @@ namespace api.Entidades
         [ForeignKey("FormaPagamento")]
         public int FormaPagamentoId { get; set; }
         public decimal ValorTotal { get; set; }
+        public DateTime DataHoraUtcPedido { get; set; }
         public bool LiberadoParaEntrega { get; set; } = false;
+        public bool Ativo { get; set; } = false;
     }
 }

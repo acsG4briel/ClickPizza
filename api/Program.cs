@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ContextoBanco>(options =>
 builder.Services.AddScoped<IItemServico, ItemServico>();
 builder.Services.AddScoped<IPagamentoServico, PagamentoServico>();
 builder.Services.AddScoped<IPedidoServico, PedidoServico>();
+builder.Services.AddScoped<IEntregaServico, EntregaServico>();
 
 //INJEÇÕES DE DEPENDENCIAS - REPOSITORIOS
 builder.Services.AddScoped<IItemRepositorio, ItemRepositorio>();
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio
 builder.Services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
 builder.Services.AddScoped<IItemPedidoRepositorio, ItemPedidoRepositorio>();
 builder.Services.AddScoped<IPagamentoRepositorio, PagamentoRepositorio>();
+builder.Services.AddScoped<IEntregaRepositorio, EntregaRepositorio>();
+builder.Services.AddScoped<IEnderecoRepositorio, EnderecoRepositorio>();
 
 builder.Services.AddCors(options =>
 {

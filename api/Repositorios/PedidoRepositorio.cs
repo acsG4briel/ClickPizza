@@ -1,5 +1,6 @@
 ﻿using api.Entidades;
 using api.Repositorios.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositorios
 {
@@ -11,6 +12,13 @@ namespace api.Repositorios
         {
             await _context.Pedidos.AddAsync(pedido);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Pedido?> ObterPedidoAtivoPorUsuario(int usuarioId)
+        {
+            return await _context.Pedidos.FirstOrDefaultAsync(pedido => pedido.UsuarioId == usuarioId 
+                && pedido.LiberadoParaEntrega == true 
+                && pedido.Ativo == true);
         }
     }
 }

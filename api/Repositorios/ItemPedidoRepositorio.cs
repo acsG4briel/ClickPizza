@@ -8,6 +8,14 @@ namespace api.Repositorios
     {
         private readonly ContextoBanco _context = context;
 
+        public async Task<List<int>> ObterItensPorPedidoId(int pedidoId)
+        {
+            return await _context.ItensPedido
+                .Where(ip => ip.PedidoId == pedidoId)
+                .Select(ip => ip.ItemId)
+                .ToListAsync();
+        }
+
         public async Task RegistrarListaItensPedidos(List<ItemPedido> itensPedidos)
         {
             await _context.ItensPedido.AddRangeAsync(itensPedidos);

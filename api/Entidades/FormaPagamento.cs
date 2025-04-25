@@ -10,7 +10,7 @@ namespace api.Entidades
         public int FormaPagamentoId { get; set; }
         [ForeignKey("Usuario")]
         public int UsuarioId { get; set; }
-        public string ApelidoCartao { get; set; } = string.Empty;
+        public string Descricao { get; set; } = string.Empty;
         public long? NumeroCartao { get; set; }
         public string? Validade { get; set; }
         public int? CodigoValidadeCartao { get; set; }

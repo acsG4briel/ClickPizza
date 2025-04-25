@@ -14,7 +14,8 @@ namespace api.Entidades
         public int EntregadorId { get; set; }
         [ForeignKey("Endereco")]
         public int EnderecoId { get; set; }
-        public DateTime DataHoraUtcEntrega { get; set; }
+        public DateTime DataHoraUtcEntregaIncio { get; set; }
+        public DateTime DataHoraUtcEntregaFim { get; set; }
         public bool EntregaFinalizada { get; set; } = false;
     }
 }

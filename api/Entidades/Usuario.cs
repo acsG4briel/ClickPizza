@@ -10,6 +10,9 @@ namespace api.Entidades
         [ForeignKey("Endereco")]
         public int EnderecoId { get; set; }
         public string Nome { get; set; } = string.Empty;
-        public int Cpf { get; set; }
+        public string Cpf { get; set; } = string.Empty;
+        public long? Celular { get; set; }
+        public bool Ativo { get; set; } = true;
+        public bool Administrador { get; set; } = false;
     }
 }
