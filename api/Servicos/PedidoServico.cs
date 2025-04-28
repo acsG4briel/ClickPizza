@@ -27,6 +27,7 @@ namespace api.Servicos
                 FormaPagamentoId = informacoes.FormaPagamentoId,
                 ValorTotal = informacoes.ValorTotal,
                 LiberadoParaEntrega = true,
+                DataHoraUtcPedido = DateTime.UtcNow,
             };
 
             //TODO: Adicionar transações

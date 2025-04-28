@@ -14,6 +14,6 @@ namespace api.Entidades
         public decimal ValorTotal { get; set; }
         public DateTime DataHoraUtcPedido { get; set; }
         public bool LiberadoParaEntrega { get; set; } = false;
-        public bool Ativo { get; set; } = false;
+        public bool Ativo { get; set; } = true;
     }
 }
