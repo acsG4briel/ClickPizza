@@ -11,12 +11,19 @@ namespace api.Controllers
         private readonly IEntregaServico _entregaServico = entregaServico;
 
         //FEATURE: Gerar entrega pela tela de admin ao liberar o pedido
-
         [HttpGet]
         [Route("entrega-em-andamento")]
         public async Task<IActionResult> ObterDadosEntregaEmAndamento(int usuarioId)
         {
             return Ok(await _entregaServico.ObterUltimaEntrega(usuarioId));
+        }
+
+        [HttpPatch]
+        [Route("finalizar-entrega")]
+        public async Task<IActionResult> FinalizarEntrega(int entregaId)
+        {
+            await _entregaServico.FinalizarEntrega(entregaId);
+            return Ok();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace api.Repositorios.Interfaces
     {
         public Task RegistrarPedido(Pedido pedido);
         public Task<Pedido?> ObterPedidoAtivoPorUsuario(int usuarioId);
+        public Task AtualizarStatusPedido(int pedidoId);
     }
 }

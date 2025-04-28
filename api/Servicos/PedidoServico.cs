@@ -11,12 +11,14 @@ namespace api.Servicos
         IItemPedidoRepositorio itemPedidoRepositorio,
         IItemRepositorio itemRepositorio,
         IPagamentoRepositorio pagamentoRepositorio,
+        IEntregaServico entregaServico,
         ContextoBanco context) : IPedidoServico
     {
         private readonly IPedidoRepositorio _pedidoRepositorio = pedidoRepositorio;
         private readonly IItemPedidoRepositorio _itemPedidoRepositorio = itemPedidoRepositorio;
         private readonly IItemRepositorio _itemRepositorio = itemRepositorio;
         private readonly IPagamentoRepositorio _pagamentoRepositorio = pagamentoRepositorio;
+        private readonly IEntregaServico _entregaServico = entregaServico;
         private readonly ContextoBanco _context = context;
 
         public async Task EnviarPedido(InformacoesCriacaoPedidoDto informacoes)
@@ -47,6 +49,8 @@ namespace api.Servicos
                 await transaction.RollbackAsync();
                 throw;
             }
+
+            await _entregaServico.GerarEntrega(pedido);
         }
 
         private async Task InserirInformacoesPagamento(Pedido pedido)

@@ -1,14 +1,27 @@
-export const entrega = {
-    id: 101,
-    entregadorId: 7,
-    endereco: "Rua das Pizzas, 123 - Centro, São Paulo/SP",
-    pedido: {
-      id: 2024,
-      itens: [
-        { id: 1, nome: "Pizza Margherita", valor: 39.90 },
-        { id: 102, nome: "Batata Frita", valor: 12.00 }
-      ],
-      valorTotal: 51.90
-    },
-    tempoRestante: "18 minutos"
-    };
+import axios from 'axios';
+
+//ENDPOINT OBTER ENTREGA
+export const getEntregaEmAndamento = async (usuarioId) => {
+  try {
+    const response = await axios.get(`https://localhost:44329/Entrega/entrega-em-andamento`, {
+      params: { usuarioId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar entrega em andamento:', error);
+    throw error;
+  }
+};
+
+// ENDPOINT FINALIZAR ENTREGA
+export const patchFinalizarEntrega = async (entregaId) => {
+  try {
+    const response = await axios.patch(`https://localhost:44329/Entrega/finalizar-entrega`, null, {
+      params: { entregaId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao finalizar entrega:', error);
+    throw error;
+  }
+  };

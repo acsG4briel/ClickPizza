@@ -20,5 +20,12 @@ namespace api.Repositorios
                 && pedido.LiberadoParaEntrega == true 
                 && pedido.Ativo == true);
         }
+
+        public async Task AtualizarStatusPedido(int pedidoId)
+        {
+            var pedido = await _context.Pedidos.FirstAsync(pe => pe.PedidoId == pedidoId);
+            pedido.Ativo = false;
+            await _context.SaveChangesAsync();
+        }
     }
 }

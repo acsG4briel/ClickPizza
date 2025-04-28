@@ -1,6 +1,6 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
-import { entrega } from "../../../services/entrega";
+import { getEntregaEmAndamento, patchFinalizarEntrega } from "../../../services/entrega";
 import {
   BoxEntrega,
   PedidoNumero,
@@ -10,12 +10,56 @@ import {
   TempoRestante,
   MapaBox,
   ImgMapa,
-  BoxMensagem
+  BoxMensagem,
+  BotaoFinalizar,
+  BotaoWrapper
 } from "./PaginaEntrega.styled";
 
 const PaginaEntrega = () => {
-  //TODO: Exibir conteudo se existir entrega em curso
-  const entregaEmCurso = entrega; // ou null
+  const usuarioId = 1;
+
+  const [entregaEmCurso, setEntregaEmCurso] = useState(null);
+
+  const getEntrega = async (usuarioId) => {
+    try {
+      const data = await getEntregaEmAndamento(usuarioId);
+      console.log(data);
+      if (data) {
+        setEntregaEmCurso({
+          entregaId: data.entregaId,
+          pedido: {
+            id: data.pedidoId,
+            itens: data.itensPedidos.map(item => ({
+              nome: item.descricao,
+              quantidade: item.quantidade,
+            })),
+            valorTotal: data.valorTotal
+          },
+          endereco: data.endereco,
+          tempoRestante: data.tempoRestante,
+          nomeMotorista: data.nomeMotorista,
+          placaVeiculo: data.placaVeiculo
+        });
+      }
+    } catch (error) {
+      setEntregaEmCurso(null);
+    }
+  };
+
+  useEffect(() => {
+    getEntrega(usuarioId);
+  }, [setEntregaEmCurso]);
+
+  const handleFinalizarEntrega = async () => {
+    console.log(entregaEmCurso);
+    try {
+      await patchFinalizarEntrega(entregaEmCurso.entregaId);
+      setEntregaEmCurso(null);
+      alert('Entrega finalizada com sucesso!');
+    } catch (error) {
+      alert('Erro ao finalizar entrega.');
+    }
+  };
 
   return (
     <PaginaBase>
@@ -29,16 +73,17 @@ const PaginaEntrega = () => {
             <ItensLista>
               {entregaEmCurso.pedido.itens.map(item => (
                 <ItemLinha key={item.id}>
-                  <span>{item.nome}</span>
-                  <span>R$ {item.valor.toFixed(2)}</span>
+                  <span>{item.nome} {item.quantidade > 1 ? `x${item.quantidade}` : ''}</span>
+                  {/* Se quiser mostrar valor por item, adicione aqui */}
                 </ItemLinha>
               ))}
             </ItensLista>
+            <strong>Motorista:</strong> {entregaEmCurso.nomeMotorista} - {entregaEmCurso.placaVeiculo}
             <ValorTotal>
               Total: R$ {entregaEmCurso.pedido.valorTotal.toFixed(2)}
             </ValorTotal>
             <TempoRestante>
-              Tempo estimado para entrega: {entregaEmCurso.tempoRestante}
+              Tempo estimado para entrega: {entregaEmCurso.tempoRestante} min
             </TempoRestante>
           </BoxEntrega>
 
@@ -48,6 +93,11 @@ const PaginaEntrega = () => {
               alt="Mapa ilustrativo"
             />
           </MapaBox>
+          <BotaoWrapper>
+            <BotaoFinalizar onClick={handleFinalizarEntrega}>
+              Finalizar Entrega
+            </BotaoFinalizar>
+          </BotaoWrapper>
         </>
       ) : (
         <BoxMensagem>

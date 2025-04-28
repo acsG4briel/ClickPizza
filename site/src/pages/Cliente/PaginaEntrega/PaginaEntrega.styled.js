@@ -78,10 +78,33 @@ max-width: 480px;
 margin: 60px auto;
 background: #fff;
 border-radius: 14px;
-box-shadow: 0 2px 10px rgba(73,25,95,0.09);
+box-shadow: 0 2px 10px hsla(281, 58.30%, 23.50%, 0.09);
 padding: 38px 26px;
 text-align: center;
 color: #49195f;
 font-size: 1.15rem;
 font-weight: bold;
+`;
+
+export const BotaoFinalizar = styled.button`
+margin-top: 24px;
+padding: 12px 32px;
+background-color: #49195f;
+color: #fff;
+border: none;
+border-radius: 8px;
+font-size: 1rem;
+font-weight: bold;
+cursor: pointer;
+transition: background 0.2s;
+
+&:hover {
+  background-color: rgb(57, 16, 77);
+}
+`;
+
+export const BotaoWrapper = styled.div`
+display: flex;
+justify-content: center;
+width: 100%;
 `;

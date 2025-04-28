@@ -2,6 +2,7 @@
 {
     public class DadosEntregaDto
     {
+        public int EntregaId { get; set; }
         public int PedidoId { get; set; }
         public string Endereco { get; set; } = string.Empty;
         public List<ExibicaoItemDto> ItensPedidos { get; set; } = [];
