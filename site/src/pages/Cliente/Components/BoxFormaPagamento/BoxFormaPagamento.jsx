@@ -7,10 +7,11 @@ import {
   InfoCartao
 } from "./BoxFormaPagamento.styled";
 import { getFormasPagamento } from "../../../../services/formaPagamento";
-
-const usuarioId = 1;
+import { useAtomValue } from "jotai";
+import { Usuario } from "../../../../atoms/Cliente/atomosCliente";
 
 const BoxFormaPagamento = ({ formaSelecionada, setFormaSelecionada }) => {
+  const usuario = useAtomValue(Usuario);
   const [formasPagamento, setFormasPagamento] = useState([]);
 
   const obterFormasPagamentoApi = (usuarioId) => {
@@ -22,8 +23,8 @@ const BoxFormaPagamento = ({ formaSelecionada, setFormaSelecionada }) => {
   }
 
   useEffect(() => {
-    obterFormasPagamentoApi(usuarioId);
-  }, [setFormasPagamento]);
+    obterFormasPagamentoApi(usuario.usuarioId);
+  }, [setFormasPagamento, usuario.usuarioId]);
 
   return (
     <PagamentoBox>

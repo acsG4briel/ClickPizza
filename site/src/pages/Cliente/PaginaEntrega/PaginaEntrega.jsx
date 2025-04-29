@@ -14,9 +14,11 @@ import {
   BotaoFinalizar,
   BotaoWrapper
 } from "./PaginaEntrega.styled";
+import { useAtomValue } from "jotai";
+import { Usuario } from "../../../atoms/Cliente/atomosCliente";
 
 const PaginaEntrega = () => {
-  const usuarioId = 1;
+  const usuario = useAtomValue(Usuario);
 
   const [entregaEmCurso, setEntregaEmCurso] = useState(null);
 
@@ -47,8 +49,8 @@ const PaginaEntrega = () => {
   };
 
   useEffect(() => {
-    getEntrega(usuarioId);
-  }, [setEntregaEmCurso]);
+    getEntrega(usuario.usuarioId);
+  }, [setEntregaEmCurso, usuario.usuarioId]);
 
   const handleFinalizarEntrega = async () => {
     console.log(entregaEmCurso);
@@ -74,7 +76,6 @@ const PaginaEntrega = () => {
               {entregaEmCurso.pedido.itens.map(item => (
                 <ItemLinha key={item.id}>
                   <span>{item.nome} {item.quantidade > 1 ? `x${item.quantidade}` : ''}</span>
-                  {/* Se quiser mostrar valor por item, adicione aqui */}
                 </ItemLinha>
               ))}
             </ItensLista>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Header, NavBar, NavButton, Content, Footer } from "./PaginaBase.styled.js";
 
 const PaginaBase = ({ children }) => {
+
   return (
     <Container>
       <Header>

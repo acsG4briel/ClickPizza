@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
-import { useAtom } from "jotai";
-import { pedidoEmCursoAtom } from "../../../atoms/Cliente/atomosCliente";
+import { useAtom, useAtomValue } from "jotai";
+import { pedidoEmCursoAtom, Usuario } from "../../../atoms/Cliente/atomosCliente";
 import {
     CarrinhoLista,
     ItemLinha,
@@ -18,6 +18,7 @@ import { postPedido } from "../../../services/pedido";
 //TODO: CRIAR FEATURE CADASTRO E LOGIN
 //TODO: MOVER CHAMADA DO ENDPOINT PARA QUANDO O LOGIN FOR REALIZADO
 const PaginaCarrinho = () => {
+    const usuario = useAtomValue(Usuario);
     const [pedido, setPedido] = useAtom(pedidoEmCursoAtom);
     const [formaSelecionada, setFormaSelecionada] = useState(null);
 
@@ -43,7 +44,6 @@ const PaginaCarrinho = () => {
     };
 
     const handleFinalizarPedido = async () => {
-        const usuarioId = 1;
 
         if (!formaSelecionada) {
             alert("Selecione uma forma de pagamento!");
@@ -60,7 +60,7 @@ const PaginaCarrinho = () => {
         );
         
         const informacoesPedido = {
-            usuarioId: usuarioId,
+            usuarioId: usuario.usuarioId,
             formaPagamentoId: formaSelecionada,
             valorTotal: total,
             listaPedidos: listaPedidos

@@ -1,9 +1,14 @@
-//ENDPOINT OBTER USUARIO LOGADO
-export const usuario = {
-    id: 1,
-    imagem: "",
-    nome: "Gabriel Silva",
-    cpf: "123.456.789-00",
-    endereco: "Rua das Pizzas, 123 - Centro, São Paulo/SP",
-    formaDePagamento: "Cartão de Crédito"
+import axios from "axios";
+
+//ENDPOINT OBTER USUARIO  
+export const getUsuario = async (usuarioId) => {
+  try {
+    const response = await axios.get('https://localhost:44329/api/Usuario', {
+      params: { usuarioId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar usuário:', error);
+    throw error;
+  }
   };

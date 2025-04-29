@@ -7,6 +7,7 @@ namespace api.Repositorios
     public class EnderecoRepositorio(ContextoBanco context) : IEnderecoRepositorio
     {
         private readonly ContextoBanco _context = context;
+
         public async Task<Endereco> ObterEnderecoPorUsuarioId(int usuarioId)
         {
             var enderecoId = await _context.Usuarios

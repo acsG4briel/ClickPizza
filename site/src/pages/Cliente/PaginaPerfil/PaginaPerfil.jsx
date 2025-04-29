@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
 import {
   PerfilContainer,
@@ -11,23 +10,47 @@ import {
   Select,
   SaveButton
 } from "./PaginaPerfil.styled"
+import { useAtomValue } from "jotai";
 
-import { usuario as usuarioData } from "../../../services/users";
+import { Usuario } from "../../../atoms/Cliente/atomosCliente";
 
 //TODO: CADASTRO FORMAS DE PAGAMENTO
 const PaginaPerfil = () => {
-  const [form, setForm] = useState(usuarioData);
-
+  const usuario = useAtomValue(Usuario);
+  
+  const [form, setForm] = useState({
+    nome: "",
+    cpf: "",
+    endereco: "",
+    imagem: "",
+    formaDePagamento: "",
+  });
+  
+  // Preencher o form com os dados do usuário quando ele estiver disponível
+  React.useEffect(() => {
+    if (usuario) {
+      setForm({
+        nome: usuario.nome || "",
+        cpf: usuario.cpf || "",
+        endereco: usuario.endereco || "",
+        imagem: usuario.imagem || "",
+        formaDePagamento: usuario.formasPagamento?.[0] || "",
+      });
+    }
+  }, [usuario]);
+  
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-  //TODO: ENDPOINT EDITAR USUARIO
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Dados salvos!\n" + JSON.stringify(form, null, 2));
   };
-
+  
+  // Não renderiza nada enquanto não carregar o usuário
+  if (!usuario) return <div>Carregando...</div>;
+  
   return (
     <PaginaBase>
       <PerfilContainer>
@@ -51,10 +74,9 @@ const PaginaPerfil = () => {
           <Campo>
             <Label htmlFor="formaDePagamento">Forma de Pagamento:</Label>
             <Select name="formaDePagamento" value={form.formaDePagamento} onChange={handleChange}>
-              <option>Cartão de Crédito</option>
-              <option>Cartão de Débito</option>
-              <option>Dinheiro</option>
-              <option>Pix</option>
+              {usuario.formasPagamento && usuario.formasPagamento.map(fp => (
+                <option key={fp} value={fp}>{fp}</option>
+              ))}
             </Select>
           </Campo>
           <SaveButton type="submit">Salvar</SaveButton>
@@ -62,6 +84,6 @@ const PaginaPerfil = () => {
       </PerfilContainer>
     </PaginaBase>
   );
-};
-
-export default PaginaPerfil;
+  };
+  
+  export default PaginaPerfil;
