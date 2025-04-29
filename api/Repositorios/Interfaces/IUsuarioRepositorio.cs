@@ -5,5 +5,7 @@ namespace api.Repositorios.Interfaces
     public interface IUsuarioRepositorio
     {
         public Task<Usuario> ObterUsuarioPorId(int usuarioId);
+        public Task<bool> VerificarCpfExistente(string Cpf);
+        public Task CadastrarUsuario(Usuario usuario);
     }
 }

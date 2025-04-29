@@ -16,5 +16,6 @@ namespace api.Repositorios
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Pagamento> Pagamentos { get; set; }
+        public DbSet<Login> Logins { get; set; }
     }
 }
