@@ -4,6 +4,7 @@ namespace api.Servicos.Interfaces
 {
     public interface IUsuarioServico
     {
-        public Task<DadosUsuarioDto> ObterUsuarioPorId(int usuarioId);
+        public Task CadastrarUsuario(DadosCadastroUsuarioDto dados);
+        public Task<DadosUsuarioDto> RealizarLoginUsuario(DadosLoginDto dados);
     }
 }

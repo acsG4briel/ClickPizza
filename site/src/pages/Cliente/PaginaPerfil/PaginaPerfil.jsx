@@ -8,7 +8,7 @@ import {
   ImgPreview,
   Input,
   Select,
-  SaveButton
+  SaveButton,
 } from "./PaginaPerfil.styled"
 import { useAtomValue } from "jotai";
 
@@ -26,7 +26,6 @@ const PaginaPerfil = () => {
     formaDePagamento: "",
   });
   
-  // Preencher o form com os dados do usuário quando ele estiver disponível
   React.useEffect(() => {
     if (usuario) {
       setForm({
@@ -47,9 +46,6 @@ const PaginaPerfil = () => {
     e.preventDefault();
     alert("Dados salvos!\n" + JSON.stringify(form, null, 2));
   };
-  
-  // Não renderiza nada enquanto não carregar o usuário
-  if (!usuario) return <div>Carregando...</div>;
   
   return (
     <PaginaBase>

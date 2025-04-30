@@ -15,5 +15,16 @@ namespace api.Repositorios
                                                             && u.Administrador == false 
                                                             && u.Ativo == true);
         }
+
+        public async Task<bool> VerificarCpfExistente(string Cpf)
+        {
+            return (await _context.Usuarios.FirstOrDefaultAsync(us => us.Cpf == Cpf && us.Ativo == true)) != null;
+        }
+
+        public async Task CadastrarUsuario(Usuario usuario)
+        {
+            await _context.Usuarios.AddAsync(usuario);
+            await _context.SaveChangesAsync();
+        }
     }
 }

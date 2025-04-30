@@ -32,6 +32,7 @@ builder.Services.AddScoped<IPagamentoRepositorio, PagamentoRepositorio>();
 builder.Services.AddScoped<IEntregaRepositorio, EntregaRepositorio>();
 builder.Services.AddScoped<IEnderecoRepositorio, EnderecoRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<ILoginRepositorio, LoginRepositorio>();
 
 builder.Services.AddCors(options =>
 {
@@ -46,8 +47,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://*:{port}");
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+//app.Urls.Add($"http://*:{port}");
 
 app.UseSwagger();
 app.UseSwaggerUI();
