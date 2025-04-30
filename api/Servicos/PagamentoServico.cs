@@ -1,4 +1,5 @@
 ﻿using api.DTOs;
+using api.Entidades;
 using api.Repositorios.Interfaces;
 using api.Servicos.Interfaces;
 
@@ -7,6 +8,7 @@ namespace api.Servicos
     public class PagamentoServico(IFormaPagamentoRepositorio formaPagamentoRepositorio) : IPagamentoServico
     {
         private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio = formaPagamentoRepositorio;
+
         async Task<List<FormaPagamentoDto>> IPagamentoServico.ObterFormasPagamentoPorUsuario(int usuarioId)
         {
             var formasPagamento = await _formaPagamentoRepositorio.ObterFormasPagamentoPorUsuarioId(usuarioId);
@@ -25,6 +27,26 @@ namespace api.Servicos
             }
 
             return retorno;
+        }
+
+        public async Task CadastrarNovaFormaPagamento(DadosCadastroFormaPagamentoDto dados)
+        {
+            var formaPagamento = new FormaPagamento
+            {
+                UsuarioId = dados.UsuarioId,
+                Descricao = dados.Descricao,
+                NumeroCartao = dados.NumeroCartao,
+                Validade = dados.Validade,
+                CodigoValidadeCartao = dados.CodigoValidadeCartao,
+                FormatoAtivo = true,
+            };
+
+            await _formaPagamentoRepositorio.CadastrarNovaFormaPagamento(formaPagamento);
+        }
+
+        public async Task InativarFormaPagamentoPorId(int formaPagamentoId)
+        {
+            await _formaPagamentoRepositorio.InativarFormaPagamento(formaPagamentoId);
         }
     }
 }

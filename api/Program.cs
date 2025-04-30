@@ -44,6 +44,9 @@ builder.Services.AddCors(options =>
     });
 });
 
+var stripeSettings = builder.Configuration.GetSection("Stripe");
+Stripe.StripeConfiguration.ApiKey = stripeSettings["SecretKey"];
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

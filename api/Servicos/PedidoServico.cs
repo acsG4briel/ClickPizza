@@ -40,6 +40,7 @@ namespace api.Servicos
                 await _pedidoRepositorio.RegistrarPedido(pedido);
                 await InserirListaDeItensPedidos(informacoes, pedido);
                 await AtualizarQuantidadeItens(informacoes);
+                //FEATURE: Inserir pagamento apenas após retorno stripe
                 await InserirInformacoesPagamento(pedido);
 
                 await transaction.CommitAsync();
