@@ -10,7 +10,6 @@ namespace api.Repositorios
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Entrega> Entregas { get; set; }
         public DbSet<Entregador> Entregadores { get; set; }
-        public DbSet<FormaPagamento> FormasPagamento { get; set; }
         public DbSet<Item> Itens { get; set; }
         public DbSet<ItemPedido> ItensPedido { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }

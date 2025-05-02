@@ -1,6 +1,8 @@
-﻿using api.Servicos.Interfaces;
+﻿using api.DTOs;
+using api.Servicos.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace api.Controllers
 {
@@ -8,15 +10,14 @@ namespace api.Controllers
     [ApiController]
     public class PagamentoController(IPagamentoServico pagamentoServico) : ControllerBase
     {
-        //FEATURES: Cadastro formas de pagamento e GateWays de Pagamento.
-
         private readonly IPagamentoServico _pagamentoServico = pagamentoServico;
 
-        [HttpGet]
-        [Route("{usuarioId}")]
-        public async Task<IActionResult> ObterFormasPagamentoUsuario([FromRoute] int usuarioId)
+        //ENDPOINT PAGAMENTO
+        [HttpPost("criar-intencao")]
+        public ActionResult CriarIntencaoPagamento([FromBody] decimal valor)
         {
-            return Ok(await _pagamentoServico.ObterFormasPagamentoPorUsuario(usuarioId));
+            return Ok(_pagamentoServico.GerarIntencaoDePagamento(valor));
         }
+
     }
 }

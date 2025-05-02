@@ -9,8 +9,6 @@ namespace api.Entidades
         public int PedidoId { get; set; }
         [ForeignKey("Usuario")]
         public int UsuarioId { get; set; }
-        [ForeignKey("FormaPagamento")]
-        public int FormaPagamentoId { get; set; }
         public decimal ValorTotal { get; set; }
         public DateTime DataHoraUtcPedido { get; set; }
         public bool LiberadoParaEntrega { get; set; } = false;

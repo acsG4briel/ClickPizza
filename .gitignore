@@ -1,3 +1,6 @@
 /api/.vs
 /api/bin
 /api/obj
+site/.env
+api/appsettings.json
+api/appsettings.json

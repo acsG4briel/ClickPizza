@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Repositorios;
@@ -11,9 +12,11 @@ using api.Repositorios;
 namespace api.Migrations
 {
     [DbContext(typeof(ContextoBanco))]
-    partial class ContextoBancoModelSnapshot : ModelSnapshot
+    [Migration("20250502120839_RemoveTableFormasPagamento")]
+    partial class RemoveTableFormasPagamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,6 +223,9 @@ namespace api.Migrations
                     b.Property<DateTime>("DataHoraUtcPagamento")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("FormaPagamentoId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("PedidoId")
                         .HasColumnType("integer");
 
@@ -244,6 +250,9 @@ namespace api.Migrations
 
                     b.Property<DateTime>("DataHoraUtcPedido")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FormaPagamentoId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("LiberadoParaEntrega")
                         .HasColumnType("boolean");

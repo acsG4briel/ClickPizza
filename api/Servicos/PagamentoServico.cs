@@ -1,30 +1,28 @@
 ﻿using api.DTOs;
+using api.Entidades;
 using api.Repositorios.Interfaces;
 using api.Servicos.Interfaces;
+using Stripe;
 
 namespace api.Servicos
 {
-    public class PagamentoServico(IFormaPagamentoRepositorio formaPagamentoRepositorio) : IPagamentoServico
+    public class PagamentoServico(IConfiguration configuration) : IPagamentoServico
     {
-        private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio = formaPagamentoRepositorio;
-        async Task<List<FormaPagamentoDto>> IPagamentoServico.ObterFormasPagamentoPorUsuario(int usuarioId)
+        private readonly string _stripeApiKey = configuration["Stripe:ApiKey"];
+
+        public string GerarIntencaoDePagamento(decimal valor)
         {
-            var formasPagamento = await _formaPagamentoRepositorio.ObterFormasPagamentoPorUsuarioId(usuarioId);
-            var retorno = new List<FormaPagamentoDto>();
-
-            foreach(var item in formasPagamento)
+            var client = new Stripe.StripeClient(_stripeApiKey);
+            var options = new PaymentIntentCreateOptions
             {
-                retorno.Add(new FormaPagamentoDto
-                {
-                    FormaPagamentoId = item.FormaPagamentoId,
-                    ApelidoCartao = item.Descricao,
-                    NumeroCartao = item.NumeroCartao,
-                    Validade = item.Validade,
-                    CodigoValidadeCartao = item.CodigoValidadeCartao
-                });
-            }
+                Amount = (long)(valor * 100),
+                Currency = "brl",
+                PaymentMethodTypes = new List<string> { "card" },
+            };
+            var service = new PaymentIntentService(client);
+            var paymentIntent = service.Create(options);
 
-            return retorno;
+            return paymentIntent.ClientSecret;
         }
     }
 }
