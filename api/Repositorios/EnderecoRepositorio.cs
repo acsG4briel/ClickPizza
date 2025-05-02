@@ -8,6 +8,12 @@ namespace api.Repositorios
     {
         private readonly ContextoBanco _context = context;
 
+        public async Task CadastrarNovoEndereco(Endereco endereco)
+        {
+            await _context.Enderecos.AddAsync(endereco);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Endereco> ObterEnderecoPorUsuarioId(int usuarioId)
         {
             var enderecoId = await _context.Usuarios
@@ -17,5 +23,7 @@ namespace api.Repositorios
 
             return await _context.Enderecos.FirstAsync(end => end.EnderecoId == enderecoId);
         }
+
+
     }
 }
