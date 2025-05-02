@@ -7,7 +7,6 @@ import {
   Label,
   ImgPreview,
   Input,
-  Select,
   SaveButton,
 } from "./PaginaPerfil.styled"
 import { useAtomValue } from "jotai";
@@ -23,7 +22,6 @@ const PaginaPerfil = () => {
     cpf: "",
     endereco: "",
     imagem: "",
-    formaDePagamento: "",
   });
   
   React.useEffect(() => {
@@ -33,7 +31,6 @@ const PaginaPerfil = () => {
         cpf: usuario.cpf || "",
         endereco: usuario.endereco || "",
         imagem: usuario.imagem || "",
-        formaDePagamento: usuario.formasPagamento?.[0] || "",
       });
     }
   }, [usuario]);
@@ -66,14 +63,6 @@ const PaginaPerfil = () => {
           <Campo>
             <Label htmlFor="endereco">Endereço:</Label>
             <Input name="endereco" value={form.endereco} onChange={handleChange} />
-          </Campo>
-          <Campo>
-            <Label htmlFor="formaDePagamento">Forma de Pagamento:</Label>
-            <Select name="formaDePagamento" value={form.formaDePagamento} onChange={handleChange}>
-              {usuario.formasPagamento && usuario.formasPagamento.map(fp => (
-                <option key={fp} value={fp}>{fp}</option>
-              ))}
-            </Select>
           </Campo>
           <SaveButton type="submit">Salvar</SaveButton>
         </form>

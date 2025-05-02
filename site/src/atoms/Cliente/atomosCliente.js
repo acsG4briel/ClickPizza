@@ -7,3 +7,5 @@ export const pedidoEmCursoAtom = atom({
 export const itensDisponiveis = atom([]);
 
 export const Usuario = atom();
+
+export const PagamentoAutorizado = atom(false);

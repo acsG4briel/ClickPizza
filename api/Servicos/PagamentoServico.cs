@@ -2,51 +2,27 @@
 using api.Entidades;
 using api.Repositorios.Interfaces;
 using api.Servicos.Interfaces;
+using Stripe;
 
 namespace api.Servicos
 {
-    public class PagamentoServico(IFormaPagamentoRepositorio formaPagamentoRepositorio) : IPagamentoServico
+    public class PagamentoServico(IConfiguration configuration) : IPagamentoServico
     {
-        private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio = formaPagamentoRepositorio;
+        private readonly string _stripeApiKey = configuration["Stripe:ApiKey"];
 
-        async Task<List<FormaPagamentoDto>> IPagamentoServico.ObterFormasPagamentoPorUsuario(int usuarioId)
+        public string GerarIntencaoDePagamento(decimal valor)
         {
-            var formasPagamento = await _formaPagamentoRepositorio.ObterFormasPagamentoPorUsuarioId(usuarioId);
-            var retorno = new List<FormaPagamentoDto>();
-
-            foreach(var item in formasPagamento)
+            var client = new Stripe.StripeClient(_stripeApiKey);
+            var options = new PaymentIntentCreateOptions
             {
-                retorno.Add(new FormaPagamentoDto
-                {
-                    FormaPagamentoId = item.FormaPagamentoId,
-                    ApelidoCartao = item.Descricao,
-                    NumeroCartao = item.NumeroCartao,
-                    Validade = item.Validade,
-                    CodigoValidadeCartao = item.CodigoValidadeCartao
-                });
-            }
-
-            return retorno;
-        }
-
-        public async Task CadastrarNovaFormaPagamento(DadosCadastroFormaPagamentoDto dados)
-        {
-            var formaPagamento = new FormaPagamento
-            {
-                UsuarioId = dados.UsuarioId,
-                Descricao = dados.Descricao,
-                NumeroCartao = dados.NumeroCartao,
-                Validade = dados.Validade,
-                CodigoValidadeCartao = dados.CodigoValidadeCartao,
-                FormatoAtivo = true,
+                Amount = (long)(valor * 100),
+                Currency = "brl",
+                PaymentMethodTypes = new List<string> { "card" },
             };
+            var service = new PaymentIntentService(client);
+            var paymentIntent = service.Create(options);
 
-            await _formaPagamentoRepositorio.CadastrarNovaFormaPagamento(formaPagamento);
-        }
-
-        public async Task InativarFormaPagamentoPorId(int formaPagamentoId)
-        {
-            await _formaPagamentoRepositorio.InativarFormaPagamento(formaPagamentoId);
+            return paymentIntent.ClientSecret;
         }
     }
 }

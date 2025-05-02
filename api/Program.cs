@@ -25,7 +25,6 @@ builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
 
 //INJEÇÕES DE DEPENDENCIAS - REPOSITORIOS
 builder.Services.AddScoped<IItemRepositorio, ItemRepositorio>();
-builder.Services.AddScoped<IFormaPagamentoRepositorio, FormaPagamentoRepositorio>();
 builder.Services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
 builder.Services.AddScoped<IItemPedidoRepositorio, ItemPedidoRepositorio>();
 builder.Services.AddScoped<IPagamentoRepositorio, PagamentoRepositorio>();

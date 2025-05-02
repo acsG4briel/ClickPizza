@@ -1,7 +1,7 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect } from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
 import { useAtom, useAtomValue } from "jotai";
-import { pedidoEmCursoAtom, Usuario } from "../../../atoms/Cliente/atomosCliente";
+import { PagamentoAutorizado, pedidoEmCursoAtom, Usuario } from "../../../atoms/Cliente/atomosCliente";
 import {
     CarrinhoLista,
     ItemLinha,
@@ -11,20 +11,17 @@ import {
     QuantidadeInput,
     RemoverButton
 } from "./PaginaCarrinho.styled";
-import BoxFormaPagamento from "../Components/BoxFormaPagamento/BoxFormaPagamento";
 import { postPedido } from "../../../services/pedido";
+import BoxPagamentoStripe from "../Components/PagamentoStripeForm/BoxPagamentoStripe";
 
-//TODO: NAO DEIXAR ADICIONAR MAIS DO QUE A QUANTIDADE DISPONIVEL
-//TODO: CRIAR FEATURE CADASTRO E LOGIN
-//TODO: MOVER CHAMADA DO ENDPOINT PARA QUANDO O LOGIN FOR REALIZADO
 const PaginaCarrinho = () => {
     const usuario = useAtomValue(Usuario);
     const [pedido, setPedido] = useAtom(pedidoEmCursoAtom);
-    const [formaSelecionada, setFormaSelecionada] = useState(null);
+    const [pagamentoAutorizado, setPagamentoAutorizado] = useAtom(PagamentoAutorizado);
 
     useEffect(() => {
-        console.log("Pedido atualizado:", pedido);
-    }, [pedido]);
+        setPagamentoAutorizado(false);
+    }, [pedido, setPagamentoAutorizado]);
 
     const handleQuantidadeChange = (idx, novaQtd) => {
         if (novaQtd < 1) return;
@@ -45,11 +42,6 @@ const PaginaCarrinho = () => {
 
     const handleFinalizarPedido = async () => {
 
-        if (!formaSelecionada) {
-            alert("Selecione uma forma de pagamento!");
-            return;
-        }
-
         if (!pedido.itens.length) {
             alert("Carrinho vazio!");
             return;
@@ -58,25 +50,22 @@ const PaginaCarrinho = () => {
         const listaPedidos = pedido.itens.flatMap(item =>
             Array(item.quantidade || 1).fill(item.itemCardapioId)
         );
-        
+
         const informacoesPedido = {
             usuarioId: usuario.usuarioId,
-            formaPagamentoId: formaSelecionada,
             valorTotal: total,
             listaPedidos: listaPedidos
         };
-
-        console.log("Pedido:", pedido);
 
         try {
             await postPedido(informacoesPedido);
             setPedido({ itens: [] });
             alert("Pedido enviado com sucesso!");
-            //Redirecionar ou atualizar tela, se desejar
         } catch (error) {
             alert("Erro ao enviar pedido. Tente novamente.");
             setPedido({ itens: [] });
         }
+
     };
 
     const total = pedido.itens.reduce((acc, item) => {
@@ -117,14 +106,15 @@ const PaginaCarrinho = () => {
                         Total: R$ {total.toFixed(2)}
                     </TotalBox>
 
-                    <BoxFormaPagamento
-                        formaSelecionada={formaSelecionada}
-                        setFormaSelecionada={setFormaSelecionada}
-                    />
+                    {!pagamentoAutorizado && (
+                            <BoxPagamentoStripe valor={total} />
+                    )}
 
-                    <FinalizarButton onClick={handleFinalizarPedido}>
-                        FINALIZAR PEDIDO
-                    </FinalizarButton>
+                    {pagamentoAutorizado && (
+                        <FinalizarButton onClick={handleFinalizarPedido}>
+                            FINALIZAR PEDIDO
+                        </FinalizarButton>
+                    )}
                 </>
             ) : (
                 <MensagemVazio>Seu carrinho está vazio.</MensagemVazio>

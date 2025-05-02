@@ -26,7 +26,6 @@ namespace api.Servicos
             var pedido = new Pedido
             {
                 UsuarioId = informacoes.UsuarioId,
-                FormaPagamentoId = informacoes.FormaPagamentoId,
                 ValorTotal = informacoes.ValorTotal,
                 LiberadoParaEntrega = true,
                 DataHoraUtcPedido = DateTime.UtcNow,
@@ -59,7 +58,6 @@ namespace api.Servicos
             var pagamento = new Pagamento
             {
                 UsuarioId = pedido.UsuarioId,
-                FormaPagamentoId = pedido.FormaPagamentoId,
                 PedidoId = pedido.PedidoId,
                 DataHoraUtcPagamento = DateTime.UtcNow,
             };

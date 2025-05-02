@@ -35,7 +35,7 @@ font-weight: bold;
 cursor: pointer;
 transition: background 0.2s;
 display: block;
-margin: 0 auto;
+margin: 40px auto 0 auto; /* <--- Aqui */
 
 &:hover {
   background: rgb(110, 50, 102);

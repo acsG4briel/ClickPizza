@@ -8,12 +8,10 @@ namespace api.Servicos
 {
     public class UsuarioServico(IUsuarioRepositorio usuarioRepositorio, 
         IEnderecoRepositorio enderecoRepositorio,
-        IFormaPagamentoRepositorio formaPagamentoRepositorio,
         ILoginRepositorio loginRepositorio) : IUsuarioServico
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio = usuarioRepositorio;
         private readonly IEnderecoRepositorio _enderecoRepositorio = enderecoRepositorio;
-        private readonly IFormaPagamentoRepositorio _formaPagamentoRepositorio = formaPagamentoRepositorio;
         private readonly ILoginRepositorio _loginRepositorio = loginRepositorio;
 
         public async Task CadastrarUsuario(DadosCadastroUsuarioDto dados)
@@ -65,7 +63,6 @@ namespace api.Servicos
         private async Task<DadosUsuarioDto> ObterUsuarioPorId(int usuarioId)
         {
             var usuario = await _usuarioRepositorio.ObterUsuarioPorId(usuarioId);
-            var formasPagamento = await _formaPagamentoRepositorio.ObterFormasPagamentoPorUsuarioId(usuarioId);
             var endereco = await _enderecoRepositorio.ObterEnderecoPorUsuarioId(usuarioId);
 
             var enderecoFormatado = $"{endereco.Rua}, {endereco.Numero}";
@@ -81,7 +78,6 @@ namespace api.Servicos
                 Nome = usuario.Nome,
                 Cpf = usuario.Cpf,
                 Endereco = enderecoFormatado,
-                FormasPagamento = [.. formasPagamento.Select(fp => fp.Descricao)],
             };
         }
     }

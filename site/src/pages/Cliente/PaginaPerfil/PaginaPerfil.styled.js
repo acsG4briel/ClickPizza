@@ -34,13 +34,6 @@ border: 1px solid #ccc;
 font-size: 1rem;
 `;
 
-export const Select = styled.select`
-padding: 8px 10px;
-border-radius: 6px;
-border: 1px solid #ccc;
-font-size: 1rem;
-`;
-
 export const ImgPreview = styled.img`
 width: 90px;
 height: 90px;
