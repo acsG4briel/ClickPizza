@@ -26,5 +26,15 @@ namespace api.Repositorios
             await _context.Usuarios.AddAsync(usuario);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AtualizarEnderecoUsuario(int usuarioId, int enderecoId)
+        {
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(us => us.UsuarioId == usuarioId);
+            if (usuario == null)
+                throw new Exception("Usuário não encontrado.");
+
+            usuario.EnderecoId = enderecoId;
+            await _context.SaveChangesAsync();
+        }
     }
 }
