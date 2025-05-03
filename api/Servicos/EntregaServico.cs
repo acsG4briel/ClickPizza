@@ -12,13 +12,17 @@ namespace api.Servicos
         IEnderecoRepositorio enderecoRepositorio,
         IItemPedidoRepositorio itemPedidoRepositorio,
         IItemRepositorio itemRepositorio,
+        IEnderecoServico enderecoServico,
         ContextoBanco context) : IEntregaServico
     {
+        private int USUARIO_ID_ADMIN = 1;
+
         private readonly IEntregaRepositorio _entregaRepositorio = entregaRepositorio;
         private readonly IPedidoRepositorio _pedidoRepositorio = pedidoRepositorio;
         private readonly IEnderecoRepositorio _enderecoRepositorio = enderecoRepositorio;
         private readonly IItemPedidoRepositorio _itemPedidoRepositorio = itemPedidoRepositorio;
         private readonly IItemRepositorio _itemRepositorio = itemRepositorio;
+        private readonly IEnderecoServico _enderecoServico = enderecoServico;
         private readonly ContextoBanco _context = context;
 
         //TODO: Na feature de liberar pedidos, selecionar entregador.
@@ -27,15 +31,20 @@ namespace api.Servicos
         {
             //OBTER DADOS PARA GERAR ENTREGA
             var entregadorId = await _entregaRepositorio.ObterEntregadorDisponivelParaEntrega();
-            var endereco = await _enderecoRepositorio.ObterEnderecoPorUsuarioId(pedido.UsuarioId);
+
+            var enderecoOrigem = await _enderecoRepositorio.ObterEnderecoPorUsuarioId(USUARIO_ID_ADMIN);
+            var origem = FormatarEnderecoParaGeocoding(enderecoOrigem);
+
+            var enderecoDestino = await _enderecoRepositorio.ObterEnderecoPorUsuarioId(pedido.UsuarioId);
+            var destino = FormatarEnderecoParaGeocoding(enderecoDestino);
 
             var entrega = new Entrega
             {
                 PedidoId = pedido.PedidoId,
                 EntregadorId = entregadorId,
-                EnderecoId = endereco.EnderecoId,
+                EnderecoId = enderecoDestino.EnderecoId,
                 DataHoraUtcEntregaIncio = DateTime.UtcNow,
-                DataHoraUtcEntregaFim = DateTime.UtcNow.AddMinutes(20), //Alterar para lógica de calcular distância pelo endereço
+                DataHoraUtcEntregaFim = DateTime.UtcNow.AddMinutes(await _enderecoServico.CalcularTempoEntrega(origem, destino)),
             };
 
             await _entregaRepositorio.RegistrarEntrega(entrega);
@@ -103,6 +112,26 @@ namespace api.Servicos
             }
 
             return retorno;
+        }
+
+        public static string FormatarEnderecoParaGeocoding(Endereco endereco)
+        {
+            string ruaNumero = endereco.Rua;
+            if (endereco.Numero.HasValue)
+                ruaNumero += $" {endereco.Numero.Value}";
+
+            var partes = new List<string>
+             {
+                 ruaNumero,
+                 endereco.Bairro,
+                 endereco.Cidade,
+                 endereco.Estado,
+                 endereco.CEP
+             };
+
+            partes = partes.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
+
+            return string.Join(", ", partes);
         }
     }
 }

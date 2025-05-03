@@ -63,7 +63,6 @@ const PaginaCarrinho = () => {
             alert("Pedido enviado com sucesso!");
         } catch (error) {
             alert("Erro ao enviar pedido. Tente novamente.");
-            setPedido({ itens: [] });
         }
 
     };
