@@ -17,5 +17,9 @@ namespace api.Entidades
         public DateTime DataHoraUtcEntregaIncio { get; set; }
         public DateTime DataHoraUtcEntregaFim { get; set; }
         public bool EntregaFinalizada { get; set; } = false;
+        public double CoordenadasOrigemLatitude { get; set; }
+        public double CoordenadasOrigemLongitude { get; set; }
+        public double CoordenadasDestinoLatitude { get; set; }
+        public double CoordenadasDestinoLongitude { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace api.Servicos
             return endereco;
         }
 
-        public async Task<int> CalcularTempoEntrega(string enderecoOrigem, string enderecoDestino)
+        public async Task<DadosTrajetoEntregaDto> ObterDadosTrajetoEntrega(string enderecoOrigem, string enderecoDestino)
         {
             var apiKey = "5b3ce3597851110001cf6248c300b0ab269745faaaf7af97e50b4d9d";
 
@@ -84,7 +84,6 @@ namespace api.Servicos
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(json);
             using var doc = JsonDocument.Parse(json);
 
             var routes = doc.RootElement.GetProperty("routes");
@@ -94,7 +93,13 @@ namespace api.Servicos
             var summary = routes[0].GetProperty("summary");
             double durationSeconds = summary.GetProperty("duration").GetDouble();
             int duracao = (int)(durationSeconds / 60);
-            return duracao;
+
+            return new DadosTrajetoEntregaDto
+            {
+                TempoRestante = duracao,
+                CoordenadasOrigem = coordenadasOrigem,
+                CoordenadasDestino = coordenadasDestino,
+            };
         }
 
 

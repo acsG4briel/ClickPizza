@@ -38,13 +38,19 @@ namespace api.Servicos
             var enderecoDestino = await _enderecoRepositorio.ObterEnderecoPorUsuarioId(pedido.UsuarioId);
             var destino = FormatarEnderecoParaGeocoding(enderecoDestino);
 
+            var dadosTrajeto = await _enderecoServico.ObterDadosTrajetoEntrega(origem, destino);
+
             var entrega = new Entrega
             {
                 PedidoId = pedido.PedidoId,
                 EntregadorId = entregadorId,
                 EnderecoId = enderecoDestino.EnderecoId,
                 DataHoraUtcEntregaIncio = DateTime.UtcNow,
-                DataHoraUtcEntregaFim = DateTime.UtcNow.AddMinutes(await _enderecoServico.CalcularTempoEntrega(origem, destino)),
+                DataHoraUtcEntregaFim = DateTime.UtcNow.AddMinutes(dadosTrajeto.TempoRestante),
+                CoordenadasOrigemLatitude = dadosTrajeto.CoordenadasOrigem.Latitude,
+                CoordenadasOrigemLongitude = dadosTrajeto.CoordenadasOrigem.Longitude,
+                CoordenadasDestinoLatitude = dadosTrajeto.CoordenadasDestino.Latitude,
+                CoordenadasDestinoLongitude = dadosTrajeto.CoordenadasDestino.Longitude,
             };
 
             await _entregaRepositorio.RegistrarEntrega(entrega);
@@ -68,6 +74,18 @@ namespace api.Servicos
                 enderecoFormatado += $" - {endereco.Complemento}";
             }
 
+            var origem = new CoordenadasDto
+            {
+                Latitude = entrega.CoordenadasOrigemLatitude,
+                Longitude = entrega.CoordenadasOrigemLongitude,
+            };
+
+            var destino = new CoordenadasDto
+            {
+                Latitude = entrega.CoordenadasDestinoLatitude,
+                Longitude = entrega.CoordenadasOrigemLongitude,
+            };
+
             return new DadosEntregaDto
             {
                 EntregaId = entrega.EntregaId,
@@ -78,6 +96,8 @@ namespace api.Servicos
                 TempoRestante = (entrega.DataHoraUtcEntregaFim - DateTime.UtcNow).Minutes,
                 NomeMotorista = motorista.Nome,
                 PlacaVeiculo = motorista.PlacaVeiculo,
+                Origem = origem,
+                Destino = destino,
             };
         }
 
