@@ -1,55 +1,66 @@
 import React, { useState } from "react";
 import PaginaBase from "../Components/PaginaBase/PaginaBase";
 import {
-  PerfilContainer,
-  Titulo,
-  Campo,
-  Label,
-  ImgPreview,
-  Input,
-  SaveButton,
-  EnderecoButton
+PerfilContainer,
+Titulo,
+Campo,
+Label,
+ImgPreview,
+Input,
+SaveButton,
+EnderecoButton,
+LogoutButton // Nova importação
 } from "./PaginaPerfil.styled"
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai"; // Adicionando useSetAtom
+import { useNavigate } from "react-router-dom"; // Para navegação
 import ModalCadastroEndereco from "../Components/ModalCadastroEndereco/ModalCadastroEndereco";
 
 import { Usuario } from "../../../atoms/Cliente/atomosCliente";
 
 //TODO: CADASTRO FORMAS DE PAGAMENTO
 const PaginaPerfil = () => {
-  const usuario = useAtomValue(Usuario);
+const usuario = useAtomValue(Usuario);
+const setUsuario = useSetAtom(Usuario); // Para limpar o átomo
+const navigate = useNavigate(); // Para navegação
 
-  const [form, setForm] = useState({
-    nome: "",
-    cpf: "",
-    endereco: "",
-    imagem: "",
-  });
+const [form, setForm] = useState({
+  nome: "",
+  cpf: "",
+  endereco: "",
+  imagem: "",
+});
 
-  const [showModal, setShowModal] = useState(false);
+const [showModal, setShowModal] = useState(false);
 
-  React.useEffect(() => {
-    if (usuario) {
-      setForm({
-        nome: usuario.nome || "",
-        cpf: usuario.cpf || "",
-        endereco: usuario.endereco || "",
-        imagem: usuario.imagem || "",
-      });
-    }
-  }, [usuario]);
+React.useEffect(() => {
+  if (usuario) {
+    setForm({
+      nome: usuario.nome || "",
+      cpf: usuario.cpf || "",
+      endereco: usuario.endereco || "",
+      imagem: usuario.imagem || "",
+    });
+  }
+}, [usuario]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+const handleChange = (e) => {
+  setForm({ ...form, [e.target.name]: e.target.value });
+};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Dados salvos!\n" + JSON.stringify(form, null, 2));
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  alert("Dados salvos!\n" + JSON.stringify(form, null, 2));
+};
 
-  return (
-    <>
+// Nova função para desconectar o usuário
+const handleLogout = () => {
+  setUsuario(null); // Limpa o átomo de usuário
+  alert("Usuario desconectado");
+  navigate("/"); // Redireciona para a página inicial
+};
+
+return (
+  <>
     {showModal && (
       <ModalCadastroEndereco
         onClose={() => setShowModal(false)}
@@ -59,7 +70,7 @@ const PaginaPerfil = () => {
           setShowModal(false);
         }}
       />
-     )}
+    )}
     <PaginaBase>
       <PerfilContainer>
         <Titulo>Meu Perfil</Titulo>
@@ -87,21 +98,26 @@ const PaginaPerfil = () => {
               />
               {!usuario?.endereco && (
                 <EnderecoButton
-                type="button"
-                onClick={() => setShowModal(true)}
-                style={{ marginLeft: 12 }}
-               >
-                +
-               </EnderecoButton>
+                  type="button"
+                  onClick={() => setShowModal(true)}
+                  style={{ marginLeft: 12 }}
+                >
+                  +
+                </EnderecoButton>
               )}
             </div>
           </Campo>
           <SaveButton type="submit">Salvar</SaveButton>
+          
+          {/* Botão de logout adicionado aqui */}
+          <LogoutButton type="button" onClick={handleLogout}>
+            Desconectar
+          </LogoutButton>
         </form>
       </PerfilContainer>
     </PaginaBase>
-    </>
-  );
+  </>
+);
 };
 
 export default PaginaPerfil;

@@ -80,3 +80,21 @@ transition: background 0.2s;
   background: rgb(73, 25, 95);
 }
 `;
+
+// Adicione esta exportação no seu arquivo de estilos
+export const LogoutButton = styled.button`
+background-color: #e74c3c;
+color: white;
+border: none;
+border-radius: 4px;
+padding: 10px 20px;
+margin-top: 15px;
+cursor: pointer;
+font-weight: bold;
+width: 100%;
+transition: background-color 0.3s;
+
+&:hover {
+  background-color: #c0392b;
+}
+`;
