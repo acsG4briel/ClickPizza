@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace api.Entidades
+﻿namespace api.DTOs
 {
-    public class Endereco
+    public class DadosCadastroEnderecoDto
     {
-        [Key]
-        public int EnderecoId { get; set; }
+        public int UsuarioId { get; set; }
         public string CEP { get; set; } = string.Empty;
         public string Estado { get; set; } = string.Empty;
         public string Cidade { get; set; } = string.Empty;

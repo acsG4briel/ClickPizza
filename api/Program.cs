@@ -22,6 +22,7 @@ builder.Services.AddScoped<IPagamentoServico, PagamentoServico>();
 builder.Services.AddScoped<IPedidoServico, PedidoServico>();
 builder.Services.AddScoped<IEntregaServico, EntregaServico>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
+builder.Services.AddHttpClient<IEnderecoServico, EnderecoServico>();
 
 //INJEÇÕES DE DEPENDENCIAS - REPOSITORIOS
 builder.Services.AddScoped<IItemRepositorio, ItemRepositorio>();

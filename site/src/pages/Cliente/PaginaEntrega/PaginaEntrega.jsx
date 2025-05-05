@@ -9,13 +9,13 @@ import {
   ValorTotal,
   TempoRestante,
   MapaBox,
-  ImgMapa,
   BoxMensagem,
   BotaoFinalizar,
   BotaoWrapper
 } from "./PaginaEntrega.styled";
 import { useAtomValue } from "jotai";
 import { Usuario } from "../../../atoms/Cliente/atomosCliente";
+import MapaEntrega from "../Components/MapaEntrega/MapaEntrega";
 
 const PaginaEntrega = () => {
   const usuario = useAtomValue(Usuario);
@@ -40,7 +40,9 @@ const PaginaEntrega = () => {
           endereco: data.endereco,
           tempoRestante: data.tempoRestante,
           nomeMotorista: data.nomeMotorista,
-          placaVeiculo: data.placaVeiculo
+          placaVeiculo: data.placaVeiculo,
+          origem: data.origem,
+          destino: data.destino
         });
       }
     } catch (error) {
@@ -89,10 +91,7 @@ const PaginaEntrega = () => {
           </BoxEntrega>
 
           <MapaBox>
-            <ImgMapa
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-              alt="Mapa ilustrativo"
-            />
+            <MapaEntrega origem={entregaEmCurso.origem} destino={entregaEmCurso.destino} />
           </MapaBox>
           <BotaoWrapper>
             <BotaoFinalizar onClick={handleFinalizarEntrega}>

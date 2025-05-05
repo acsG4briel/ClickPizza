@@ -31,7 +31,6 @@ namespace api.Servicos
                 DataHoraUtcPedido = DateTime.UtcNow,
             };
 
-            //TODO: Adicionar transações
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try

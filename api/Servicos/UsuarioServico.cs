@@ -65,12 +65,17 @@ namespace api.Servicos
             var usuario = await _usuarioRepositorio.ObterUsuarioPorId(usuarioId);
             var endereco = await _enderecoRepositorio.ObterEnderecoPorUsuarioId(usuarioId);
 
-            var enderecoFormatado = $"{endereco.Rua}, {endereco.Numero}";
-
-            if (!string.IsNullOrWhiteSpace(endereco.Complemento))
+            var enderecoFormatado = string.Empty;
+            if(endereco != null)
             {
-                enderecoFormatado += $" - {endereco.Complemento}";
+                enderecoFormatado = $"{endereco.Rua}, {endereco.Numero}";
+
+                if (!string.IsNullOrWhiteSpace(endereco.Complemento))
+                {
+                    enderecoFormatado += $" - {endereco.Complemento}";
+                }
             }
+            
 
             return new DadosUsuarioDto
             {

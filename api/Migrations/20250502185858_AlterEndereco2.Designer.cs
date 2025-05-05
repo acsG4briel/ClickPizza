@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.Repositorios;
@@ -11,9 +12,11 @@ using api.Repositorios;
 namespace api.Migrations
 {
     [DbContext(typeof(ContextoBanco))]
-    partial class ContextoBancoModelSnapshot : ModelSnapshot
+    [Migration("20250502185858_AlterEndereco2")]
+    partial class AlterEndereco2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,18 +71,6 @@ namespace api.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EntregaId"));
-
-                    b.Property<double>("CoordenadasDestinoLatitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("CoordenadasDestinoLongitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("CoordenadasOrigemLatitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("CoordenadasOrigemLongitude")
-                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("DataHoraUtcEntregaFim")
                         .HasColumnType("timestamp with time zone");
