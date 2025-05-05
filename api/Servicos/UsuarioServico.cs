@@ -26,7 +26,7 @@ namespace api.Servicos
             //Montar Usuario e cadastrar em banco
             var usuario = new Usuario
             {
-                EnderecoId = 5, //FEATURE: Obter endereço por CEP
+                EnderecoId = 0,
                 Nome = dados.Nome,
                 Cpf = dados.Cpf,
                 Celular = dados.Celular,
