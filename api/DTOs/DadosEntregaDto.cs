@@ -11,6 +11,8 @@
         public decimal ValorTotal { get; set; }
         public string NomeMotorista { get; set; } = string.Empty;
         public string PlacaVeiculo { get; set; } = string.Empty;
+        public CoordenadasDto Origem { get; set; } = new();
+        public CoordenadasDto Destino { get; set; } = new();
     }
 
 

@@ -6,6 +6,6 @@ namespace api.Servicos.Interfaces
     {
         public Task<DadosEnderecoDto?> ObterEnderecoPorCep(string cep);
         public Task CadastrarNovoEndereco(DadosCadastroEnderecoDto dto);
-        public Task<int> CalcularTempoEntrega(string enderecoOrigem, string enderecoDestino);
+        public Task<DadosTrajetoEntregaDto> ObterDadosTrajetoEntrega(string enderecoOrigem, string enderecoDestino);
     }
 }
