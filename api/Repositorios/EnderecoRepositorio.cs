@@ -14,14 +14,14 @@ namespace api.Repositorios
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Endereco> ObterEnderecoPorUsuarioId(int usuarioId)
+        public async Task<Endereco?> ObterEnderecoPorUsuarioId(int usuarioId)
         {
             var enderecoId = await _context.Usuarios
                 .Where(u => u.UsuarioId == usuarioId)
                 .Select(u => u.EnderecoId)
                 .FirstOrDefaultAsync();
 
-            return await _context.Enderecos.FirstAsync(end => end.EnderecoId == enderecoId);
+            return await _context.Enderecos.FirstOrDefaultAsync(end => end.EnderecoId == enderecoId);
         }
 
 

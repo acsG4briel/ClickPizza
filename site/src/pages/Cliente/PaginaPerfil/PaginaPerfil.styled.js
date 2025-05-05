@@ -61,3 +61,22 @@ transition: background 0.2s;
 color: rgb(255, 255, 255);
 }
 `;
+
+export const EnderecoButton = styled.button`
+display: block;
+margin:  0 auto;
+background: rgb(110, 50, 102);
+color: #fff;
+border: none;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+font-size: 2rem;
+font-weight: bold;
+cursor: pointer;
+transition: background 0.2s;
+
+&:hover {
+  background: rgb(73, 25, 95);
+}
+`;
