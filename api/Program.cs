@@ -16,6 +16,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContextoBanco>(options =>
   options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//DESCOMENTAR PARA RODAR LOCALMENTE
+//var stripeSettings = builder.Configuration.GetSection("Stripe");
+//Stripe.StripeConfiguration.ApiKey = stripeSettings["SecretKey"];
+
+Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:ApiKey"];
+
 //INJEÇÕES DE DEPENDENCIAS - SERVICOS
 builder.Services.AddScoped<IItemServico, ItemServico>();
 builder.Services.AddScoped<IPagamentoServico, PagamentoServico>();
@@ -43,9 +49,6 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-
-var stripeSettings = builder.Configuration.GetSection("Stripe");
-Stripe.StripeConfiguration.ApiKey = stripeSettings["SecretKey"];
 
 var app = builder.Build();
 
