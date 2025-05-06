@@ -1,9 +1,11 @@
 import axios from "axios";
 
-//ENDPOINT LOGAR  
+const API_BASE = process.env.REACT_APP_API_BASE;
+
+// ENDPOINT LOGAR  
 export const getLoginUsuario = async (login, senha) => {
   try {
-    const response = await axios.get('https://localhost:44329/Usuario/login', {
+    const response = await axios.get(`${API_BASE}/Usuario/login`, {
       params: { Login: login, Senha: senha }
     });
     return response.data;
@@ -12,9 +14,9 @@ export const getLoginUsuario = async (login, senha) => {
     throw error;
   }
   };
-
+  
   // ENDPOINT CADASTRO
-export const postCadastroUsuario = async ({
+  export const postCadastroUsuario = async ({
   login,
   senha,
   email,
@@ -33,7 +35,7 @@ export const postCadastroUsuario = async ({
     };
   
     const response = await axios.post(
-      'https://localhost:44329/Usuario/cadastro',
+      `${API_BASE}/Usuario/cadastro`,
       payload
     );
     return response.data;

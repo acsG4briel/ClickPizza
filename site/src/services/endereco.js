@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_BASE = "https://localhost:44329/Endereco";
+const API_BASE = process.env.REACT_APP_API_BASE;
 
 export async function getEnderecoPorCep(cep) {
  try {
-   const response = await axios.get(`${API_BASE}/obter-por-cep`, {
+   const response = await axios.get(`${API_BASE}/Endereco/obter-por-cep`, {
      params: { cep }
    });
    return response.data;
@@ -16,7 +16,7 @@ export async function getEnderecoPorCep(cep) {
 
 export async function postNovoEndereco(dados) {
     try {
-      const response = await axios.post(`${API_BASE}/cadastrar`, dados);
+      const response = await axios.post(`${API_BASE}/Endereco/cadastrar`, dados);
       return response.data;
     } catch (error) {
       console.error("Erro ao cadastrar novo endereço:", error);
