@@ -44,7 +44,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // endereço do seu front-end
+        policy.WithOrigins("http://localhost:3000", "https://chic-selkie-9e5e40.netlify.app") // endereço do seu front-end
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
